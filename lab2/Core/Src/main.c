@@ -227,7 +227,14 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+int counter = 1000;
+void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ) {
+	counter --;
+	if( counter <= 0) {
+		counter = 1000;
+		HAL_GPIO_TogglePin ( Led1_GPIO_Port , Led1_Pin ) ;
+	}
+}
 /* USER CODE END 4 */
 
 /**
@@ -241,6 +248,7 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
+
   }
   /* USER CODE END Error_Handler_Debug */
 }
