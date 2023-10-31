@@ -284,12 +284,11 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 int currentNumber = 1;
-int counter = 100;
+int counter = 50;
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ) {
 	 counter--;
 	    if (counter <= 0) {
 	        counter = 50; // Half a second
-
 	        // Toggle between 1 and 2
 	        if (currentNumber == 1) {
 	        	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
@@ -300,10 +299,7 @@ void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ) {
 	            HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_RESET);
 	            HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
 	        }
-
-	        // Display the currentNumber on the seven-segment display
 	        display7SEG(currentNumber);
-
 	    }
 }
 /* USER CODE END 4 */
