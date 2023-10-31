@@ -292,13 +292,18 @@ void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ) {
 
 	        // Toggle between 1 and 2
 	        if (currentNumber == 1) {
+	        	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
+	        	HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_RESET);
 	            currentNumber = 2;
 	        } else {
 	            currentNumber = 1;
+	            HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_RESET);
+	            HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
 	        }
 
 	        // Display the currentNumber on the seven-segment display
 	        display7SEG(currentNumber);
+
 	    }
 }
 /* USER CODE END 4 */
