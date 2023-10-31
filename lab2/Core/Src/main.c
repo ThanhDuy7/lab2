@@ -51,12 +51,67 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
+uint16_t segmentPins[7] = {seg0_Pin, seg1_Pin, seg2_Pin, seg3_Pin, seg4_Pin, seg5_Pin, seg6_Pin};
+  GPIO_TypeDef* segmentPorts[7] = {seg0_GPIO_Port, seg1_GPIO_Port, seg2_GPIO_Port, seg3_GPIO_Port, seg4_GPIO_Port, seg5_GPIO_Port, seg6_GPIO_Port};
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+  void display7SEG(int num) {
 
+    	for (int i = 0; i < 7; i++) {
+    	        HAL_GPIO_WritePin(segmentPorts[i], segmentPins[i], GPIO_PIN_SET);
+    	    }
+    	if (num == 0) {
+    		for (int i = 0; i < 6; i++) {
+    			HAL_GPIO_WritePin(segmentPorts[i], segmentPins[i], GPIO_PIN_RESET);
+    		}
+    	} else if (num == 1) {
+    		HAL_GPIO_WritePin(segmentPorts[1], segmentPins[1], GPIO_PIN_RESET);
+    		HAL_GPIO_WritePin(segmentPorts[2], segmentPins[2], GPIO_PIN_RESET);
+    	} else if (num == 2) {
+    		for (int i = 0; i < 7; i++) {
+    			if (i == 2 || i == 5) continue;
+    			HAL_GPIO_WritePin(segmentPorts[i], segmentPins[i], GPIO_PIN_RESET);
+    		}
+    	} else if (num == 3) {
+    		for (int i = 0; i < 7; i++) {
+    			if (i == 4 || i == 5) continue;
+    			HAL_GPIO_WritePin(segmentPorts[i], segmentPins[i], GPIO_PIN_RESET);
+    		}
+    	} else if (num == 4) {
+    		for (int i = 0; i < 7; i++) {
+    			if (i == 0 || i == 3 || i == 4) continue;
+    			HAL_GPIO_WritePin(segmentPorts[i], segmentPins[i], GPIO_PIN_RESET);
+    		}
+    	} else if (num == 5) {
+    		for (int i = 0; i < 7; i++) {
+    			if (i == 1 || i == 4) continue;
+    			HAL_GPIO_WritePin(segmentPorts[i], segmentPins[i], GPIO_PIN_RESET);
+    		}
+    	} else if (num == 6) {
+    		for (int i = 0; i < 7; i++) {
+    			if (i == 1) continue;
+    			HAL_GPIO_WritePin(segmentPorts[i], segmentPins[i], GPIO_PIN_RESET);
+    		}
+    	} else if (num == 7) {
+    		for (int i = 0; i < 3; i++) {
+    			HAL_GPIO_WritePin(segmentPorts[i], segmentPins[i], GPIO_PIN_RESET);
+    		}
+    	} else if (num == 8) {
+    		for (int i = 0; i < 7; i++) {
+    			HAL_GPIO_WritePin(segmentPorts[i], segmentPins[i], GPIO_PIN_RESET);
+    		}
+    	} else if (num == 9) {
+    		for (int i = 0; i < 7; i++) {
+    			if (i == 4) continue;
+    			HAL_GPIO_WritePin(segmentPorts[i], segmentPins[i], GPIO_PIN_RESET);
+    		}
+    	}
+
+
+    }
 /* USER CODE END 0 */
 
 /**
@@ -82,6 +137,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
+
 
   /* USER CODE END SysInit */
 
@@ -227,13 +283,23 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-int counter = 1000;
+int currentNumber = 1;
+int counter = 100;
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ) {
-	counter --;
-	if( counter <= 0) {
-		counter = 1000;
-		HAL_GPIO_TogglePin ( Led1_GPIO_Port , Led1_Pin ) ;
-	}
+	 counter--;
+	    if (counter <= 0) {
+	        counter = 50; // Half a second
+
+	        // Toggle between 1 and 2
+	        if (currentNumber == 1) {
+	            currentNumber = 2;
+	        } else {
+	            currentNumber = 1;
+	        }
+
+	        // Display the currentNumber on the seven-segment display
+	        display7SEG(currentNumber);
+	    }
 }
 /* USER CODE END 4 */
 
