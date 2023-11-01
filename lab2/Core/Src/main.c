@@ -330,7 +330,7 @@ void update7SEG(int index){
     display7SEG(currentNumber);
 }
 
-int counter = 50;
+int counter = 25;
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ) {
 
 	 counter--;
@@ -340,9 +340,8 @@ void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ) {
 	    			index_led = 0;
 	    		}
 	    		update7SEG(index_led);
-	        counter = 50; // Half a second
+	        counter = 25; // Half a second
 	        // Toggle between 1 and 2
-
 	    }
 }
 /* USER CODE END 4 */

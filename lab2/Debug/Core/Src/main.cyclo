@@ -5,4 +5,4 @@
 ../Core/Src/main.c:248:13:MX_GPIO_Init	1
 ../Core/Src/main.c:293:6:update7SEG	5
 ../Core/Src/main.c:334:6:HAL_TIM_PeriodElapsedCallback	3
-../Core/Src/main.c:354:6:Error_Handler	1
+../Core/Src/main.c:353:6:Error_Handler	1
