@@ -18,7 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "software_timer.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -112,17 +112,16 @@ uint16_t segmentPins[7] = {seg0_Pin, seg1_Pin, seg2_Pin, seg3_Pin, seg4_Pin, seg
 
 
     }
-const int MAX_LED = 2;
+const int MAX_LED = 4;
 int currentNumber = 1;
 int index_led = 0;
-int led_buffer[2] = {0, 0};
-
-
+int led_buffer[4] = {0, 2, 5, 7};
 void update7SEG(int index){
     switch (index){
         case 0:
             //Display the first 7SEG with led_buffer[0]
         	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_RESET);
+
 			currentNumber = led_buffer[0];
             break;
         case 1:
@@ -130,18 +129,28 @@ void update7SEG(int index){
 			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_RESET);
 			currentNumber = led_buffer[1];
             break;
-
+        case 2:
+            //Display the third 7SEG with led_buffer[2]
+			HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_RESET);
+			currentNumber = led_buffer[2];
+            break;
+        case 3:
+            //Display the forth 7SEG with led_buffer[3]
+			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_RESET);
+			currentNumber = led_buffer[3];
+            break;
         default:
             break;
     }
     display7SEG(currentNumber);
 }
 void updateClockBuffer(int hour, int minute) {
-    led_buffer[0] = hour;
-    led_buffer[1] = minute;
-    for (int i = 0; i < MAX_LED; i++) {
-    	update7SEG(i);
-    }
+    led_buffer[0] = hour /10;
+    led_buffer[1] = hour% 10;
+    led_buffer[2] = minute/10;
+    led_buffer[3] = minute % 10;
+
+    update7SEG(i);
 }
 /* USER CODE END 0 */
 
@@ -181,12 +190,27 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer1(10);
+  setTimer1(100);
   int hour = 15, minute = 8, second = 50;
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  if (timer1_flag == 1) {
+		  setTimer1(100);
+	  second++;
+	      if (second >= 60){
+	          second = 0;
+	          minute++;
+	      }
+	      if(minute >= 60){
+	          minute = 0;
+	          hour++;
+	      }
+	      if(hour >=24){
+	          hour = 0;
+	      }
+	      updateClockBuffer(hour,minute);
+	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
