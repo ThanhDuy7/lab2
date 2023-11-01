@@ -289,7 +289,7 @@ static void MX_GPIO_Init(void)
 const int MAX_LED = 4;
 int currentNumber = 1;
 int index_led = 0;
-int led_buffer[4] = {1, 2, 3, 4};
+int led_buffer[4] = {0, 2, 5, 7};
 void update7SEG(int index){
     switch (index){
         case 0:
