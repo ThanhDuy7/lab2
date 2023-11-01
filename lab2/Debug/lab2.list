@@ -37,15 +37,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_rnglists 00000744  00000000  00000000  00029e20  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  000162a0  00000000  00000000  0002a564  2**0
+ 17 .debug_macro  000162ac  00000000  00000000  0002a564  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00009b70  00000000  00000000  00040804  2**0
+ 18 .debug_line   00009b70  00000000  00000000  00040810  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    00081f4b  00000000  00000000  0004a374  2**0
+ 19 .debug_str    00081f72  00000000  00000000  0004a380  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_frame  00002698  00000000  00000000  000cc2c0  2**2
+ 20 .debug_frame  00002698  00000000  00000000  000cc2f4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000049  00000000  00000000  000ce958  2**0
+ 21 .debug_line_str 00000049  00000000  00000000  000ce98c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -705,69 +705,69 @@ int main(void)
   setTimer1(100);
  8000580:	2064      	movs	r0, #100	; 0x64
  8000582:	f000 f943 	bl	800080c <setTimer1>
-  int hour = 15, minute = 8, second = 50;
+    int hour = 15, minute = 8, second = 50;
  8000586:	230f      	movs	r3, #15
  8000588:	60fb      	str	r3, [r7, #12]
  800058a:	2308      	movs	r3, #8
  800058c:	60bb      	str	r3, [r7, #8]
  800058e:	2332      	movs	r3, #50	; 0x32
  8000590:	607b      	str	r3, [r7, #4]
-  while (1)
-  {
-    /* USER CODE END WHILE */
-	  if (timer1_flag == 1) {
+    while (1)
+    {
+      /* USER CODE END WHILE */
+  	  if (timer1_flag == 1) {
  8000592:	4b15      	ldr	r3, [pc, #84]	; (80005e8 <main+0x84>)
  8000594:	681b      	ldr	r3, [r3, #0]
  8000596:	2b01      	cmp	r3, #1
  8000598:	d1fb      	bne.n	8000592 <main+0x2e>
-		  HAL_GPIO_TogglePin(Led1_GPIO_Port, Led1_Pin);
- 800059a:	2120      	movs	r1, #32
+  		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+ 800059a:	2110      	movs	r1, #16
  800059c:	4813      	ldr	r0, [pc, #76]	; (80005ec <main+0x88>)
  800059e:	f000 fd1b 	bl	8000fd8 <HAL_GPIO_TogglePin>
-		  setTimer1(100);
+  		  setTimer1(100);
  80005a2:	2064      	movs	r0, #100	; 0x64
  80005a4:	f000 f932 	bl	800080c <setTimer1>
-	  second++;
+  	  second++;
  80005a8:	687b      	ldr	r3, [r7, #4]
  80005aa:	3301      	adds	r3, #1
  80005ac:	607b      	str	r3, [r7, #4]
-	      if (second >= 60){
+  	      if (second >= 60){
  80005ae:	687b      	ldr	r3, [r7, #4]
  80005b0:	2b3b      	cmp	r3, #59	; 0x3b
  80005b2:	dd04      	ble.n	80005be <main+0x5a>
-	          second = 0;
+  	          second = 0;
  80005b4:	2300      	movs	r3, #0
  80005b6:	607b      	str	r3, [r7, #4]
-	          minute++;
+  	          minute++;
  80005b8:	68bb      	ldr	r3, [r7, #8]
  80005ba:	3301      	adds	r3, #1
  80005bc:	60bb      	str	r3, [r7, #8]
-	      }
-	      if(minute >= 60){
+  	      }
+  	      if(minute >= 60){
  80005be:	68bb      	ldr	r3, [r7, #8]
  80005c0:	2b3b      	cmp	r3, #59	; 0x3b
  80005c2:	dd04      	ble.n	80005ce <main+0x6a>
-	          minute = 0;
+  	          minute = 0;
  80005c4:	2300      	movs	r3, #0
  80005c6:	60bb      	str	r3, [r7, #8]
-	          hour++;
+  	          hour++;
  80005c8:	68fb      	ldr	r3, [r7, #12]
  80005ca:	3301      	adds	r3, #1
  80005cc:	60fb      	str	r3, [r7, #12]
-	      }
-	      if(hour >=24){
+  	      }
+  	      if(hour >=24){
  80005ce:	68fb      	ldr	r3, [r7, #12]
  80005d0:	2b17      	cmp	r3, #23
  80005d2:	dd01      	ble.n	80005d8 <main+0x74>
-	          hour = 0;
+  	          hour = 0;
  80005d4:	2300      	movs	r3, #0
  80005d6:	60fb      	str	r3, [r7, #12]
-	      }
-	      updateClockBuffer(hour,minute);
+  	      }
+  	      updateClockBuffer(hour,minute);
  80005d8:	68b9      	ldr	r1, [r7, #8]
  80005da:	68f8      	ldr	r0, [r7, #12]
  80005dc:	f7ff ff86 	bl	80004ec <updateClockBuffer>
-	  if (timer1_flag == 1) {
+  	  if (timer1_flag == 1) {
  80005e0:	e7d7      	b.n	8000592 <main+0x2e>
  80005e2:	bf00      	nop
  80005e4:	2000006c 	.word	0x2000006c
@@ -1018,12 +1018,12 @@ static void MX_GPIO_Init(void)
  8000742:	683b      	ldr	r3, [r7, #0]
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, Led1_Pin|EN0_Pin|EN1_Pin|EN2_Pin
+  HAL_GPIO_WritePin(GPIOA, DOT_Pin|Led1_Pin|EN0_Pin|EN1_Pin
  8000744:	2200      	movs	r2, #0
- 8000746:	f44f 7178 	mov.w	r1, #992	; 0x3e0
+ 8000746:	f44f 717c 	mov.w	r1, #1008	; 0x3f0
  800074a:	4815      	ldr	r0, [pc, #84]	; (80007a0 <MX_GPIO_Init+0xa0>)
  800074c:	f000 fc2c 	bl	8000fa8 <HAL_GPIO_WritePin>
-                          |EN3_Pin, GPIO_PIN_RESET);
+                          |EN2_Pin|EN3_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, seg0_Pin|seg1_Pin|seg2_Pin|seg3_Pin
@@ -1033,12 +1033,12 @@ static void MX_GPIO_Init(void)
  8000756:	f000 fc27 	bl	8000fa8 <HAL_GPIO_WritePin>
                           |seg4_Pin|seg5_Pin|seg6_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : Led1_Pin EN0_Pin EN1_Pin EN2_Pin
-                           EN3_Pin */
-  GPIO_InitStruct.Pin = Led1_Pin|EN0_Pin|EN1_Pin|EN2_Pin
- 800075a:	f44f 7378 	mov.w	r3, #992	; 0x3e0
+  /*Configure GPIO pins : DOT_Pin Led1_Pin EN0_Pin EN1_Pin
+                           EN2_Pin EN3_Pin */
+  GPIO_InitStruct.Pin = DOT_Pin|Led1_Pin|EN0_Pin|EN1_Pin
+ 800075a:	f44f 737c 	mov.w	r3, #1008	; 0x3f0
  800075e:	60bb      	str	r3, [r7, #8]
-                          |EN3_Pin;
+                          |EN2_Pin|EN3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
  8000760:	2301      	movs	r3, #1
  8000762:	60fb      	str	r3, [r7, #12]
