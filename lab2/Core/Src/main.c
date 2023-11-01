@@ -18,7 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "software_timer.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -186,22 +186,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  if (timer1_flag == 1) {
-		  setTimer1(10);
-	  second++;
-	      if (second >= 60){
-	          second = 0;
-	          minute++;
-	      }
-	      if(minute >= 60){
-	          minute = 0;
-	          hour++;
-	      }
-	      if(hour >=24){
-	          hour = 0;
-	      }
-	      updateClockBuffer(hour,minute);
-	  }
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -304,14 +289,17 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, Led1_Pin|EN0_Pin|EN1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, Led1_Pin|EN0_Pin|EN1_Pin|EN2_Pin
+                          |EN3_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, seg0_Pin|seg1_Pin|seg2_Pin|seg3_Pin
                           |seg4_Pin|seg5_Pin|seg6_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : Led1_Pin EN0_Pin EN1_Pin */
-  GPIO_InitStruct.Pin = Led1_Pin|EN0_Pin|EN1_Pin;
+  /*Configure GPIO pins : Led1_Pin EN0_Pin EN1_Pin EN2_Pin
+                           EN3_Pin */
+  GPIO_InitStruct.Pin = Led1_Pin|EN0_Pin|EN1_Pin|EN2_Pin
+                          |EN3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
